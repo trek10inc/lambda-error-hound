@@ -1,0 +1,33 @@
+{
+  "name": "lambda-error-hound",
+  "version": "0.9.0",
+  "preferGlobal": true,
+  "description": "Finds lambda error logs by looking for error metrics in cloudwatch and then pulling the corresponding log streams.",
+  "main": "index.js",
+  "bin": {
+    "lambda-error-hound": "./index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/trek10inc/lambda-error-hound.git"
+  },
+  "dependencies": {
+    "aws-sdk": "^2.3.0",
+    "bluebird": "^3.3.4",
+    "yargs": "^4.3.2"
+  },
+  "keywords": [
+    "lambda errors",
+    "lambda logs",
+    "lambda error logs",
+    "aws lambda",
+    "trek10",
+    "cloudwatch"
+  ],
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Trek10",
+  "license": "MIT"
+}
