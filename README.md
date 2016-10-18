@@ -89,7 +89,7 @@ Number of minutes of logs to get.
 
 Lambda Error Hound uses the aws nodejs sdk with out specifying credentials.
 This means that the sdk will look for credentials in the following order.
-1. Environment variables AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY, and optionally AWS_SESSION_TOKEN
-2. If AWS_PROFILE is set that profile is used from the ~/.aws/config file.
-3. EC2 Instance metadata
+  1. Environment variables AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY, and optionally AWS_SESSION_TOKEN
+  2. If AWS_PROFILE is set that profile is used from the ~/.aws/config file.
+  3. EC2 Instance metadata
 
