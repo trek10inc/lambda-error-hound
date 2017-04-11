@@ -38,17 +38,39 @@ function getStreams (min, max, accumulator, nextToken) {
     var filtered = results.logStreams.filter(function (ls) {
       return (ls.lastEventTimestamp >= min && ls.firstEventTimestamp <= max)
     })
+    var emptyLists = accumulator && accumulator.emptyLists || 0
     accumulator = (accumulator || []).concat(filtered)
     console.error('Read %d streams, %d are candidates', results.logStreams.length, filtered.length)
+    if (filtered.length === 0 && accumulator.length > 0) {
+      emptyLists = emptyLists + 1
+    }
+    accumulator.emptyLists = emptyLists
     // we need a better base case,
     // and results.logStreams[*].firstEventTime
-    if (results.nextToken && (filtered.length > 0 || (accumulator || []).length === 0)) {
+    if (results.nextToken && (emptyLists <= 5 || (accumulator || []).length === 0)) {
       // recurse
       return getStreams (min, max, accumulator, results.nextToken)
     } else {
       return Promise.resolve(accumulator)
     }
   })
+}
+
+function writeData (errorWindow) {
+  // now we have a list of errorWindow objects each has list of streams and events object with key=steamname value=list of events
+  console.log()
+  console.log('For logs/errors between %s and %s', 
+              new Date(errorWindow.min).toUTCString(),
+              new Date(errorWindow.max).toUTCString())
+  console.log('==================================================================================')
+  for(var stream in errorWindow.events) {
+    console.log()
+    console.log('Stream Name: %s', stream)
+    console.log('-----------------------------------------------------------------')
+    errorWindow.events[stream].forEach(function (e) {
+      process.stdout.write(e.message)
+    })
+  }
 }
 
 var windowList
@@ -107,25 +129,14 @@ windowList.then(function (windowList) {
 
       
       errorWindow.events[stream] = results.events
+      
+      //stream to reduce memory
+      writeData(errorWindow)
+      delete errorWindow.events[stream]
+
       return errorWindow
     })
   }, { concurrency: 10} )
-})
-.each(function (errorWindow) {
-  // now we have a list of errorWindow objects each has list of streams and events object with key=steamname value=list of events
-  console.log()
-  console.log('For logs/errors between %s and %s', 
-              new Date(errorWindow.min).toUTCString(),
-              new Date(errorWindow.max).toUTCString())
-  console.log('==================================================================================')
-  for(var stream in errorWindow.events) {
-    console.log()
-    console.log('Stream Name: %s', stream)
-    console.log('-----------------------------------------------------------------')
-    errorWindow.events[stream].forEach(function (e) {
-      process.stdout.write(e.message)
-    })
-  }
 })
 .catch(function (err) {
   console.log(err)
