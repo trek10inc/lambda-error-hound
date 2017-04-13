@@ -7,7 +7,7 @@ Utility for quickly finding cloudwatch logs surrounding an lambda error
 
 ## Example
 
-`lambdaErrorHound error -f myfunctionwitherrors`
+`lambda-error-hound error -f myfunctionwitherrors`
 
 ## Usage
 
@@ -16,9 +16,9 @@ Lambda error hounds has three modes, error, group and list
 ### List
 This is a convenience operation. It lists either Lambda functions or Cloudwatch log groups.
 
-`lambdaErrorHound list -f` lists all Lambda functions.
+`lambda-error-hound list -f` lists all Lambda functions.
 
-`lambdaErrorHound list -g` lists all CloudWatch log groups
+`lambda-error-hound list -g` lists all CloudWatch log groups
 
 
 ### Error

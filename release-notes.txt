@@ -1,0 +1,3 @@
+Version 0.9.0
+-------------
+Don't hold logs in memory, just write to file.
