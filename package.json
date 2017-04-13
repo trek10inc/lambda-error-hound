@@ -1,6 +1,6 @@
 {
   "name": "lambda-error-hound",
-  "version": "0.9.1",
+  "version": "0.9.2",
   "preferGlobal": true,
   "description": "Finds lambda error logs by looking for error metrics in cloudwatch and then pulling the corresponding log streams.",
   "main": "index.js",
